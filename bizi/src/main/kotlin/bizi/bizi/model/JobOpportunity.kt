@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import bizi.bizi.model.Company
 import lombok.NoArgsConstructor
+
 @Entity
 @Table(name = "job_opportunities")
 @NoArgsConstructor

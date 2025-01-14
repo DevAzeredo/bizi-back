@@ -38,11 +38,9 @@ class CompanyController(private val companyService: CompanyService) {
             @AuthenticationPrincipal user: User,
             @RequestParam("logo") file: MultipartFile
     ): Company {
-        logger.info("Requisição upload logo")
         val companyId =
                 user.company?.id
                         ?: throw ResponseStatusException(HttpStatus.BANDWIDTH_LIMIT_EXCEEDED)
-        logger.info("achou a company")
         return companyService.updateCompanyLogo(companyId, file)
     }
     @GetMapping("/logos/{fileName}")

@@ -34,28 +34,8 @@ class JobOpportunityService(
         return jobOpportunityRepository.save(jobOpportunity)
     }
 
-    fun findJobOpportunitiesByCompany(companyId: Long): List<JobOpportunityWithCompanyDTO> {
-        val company =
-                companyRepository.findById(companyId).orElseThrow {
-                    RuntimeException("Company not found")
-                }
-
-        return jobOpportunityRepository.findByCompanyId(companyId).map { job ->
-            JobOpportunityWithCompanyDTO(
-                    id = job.id,
-                    title = job.title,
-                    description = job.description,
-                    category = job.category,
-                    address = job.address,
-                    latitude = job.latitude,
-                    longitude = job.longitude,
-                    startDateTime = job.startDateTime,
-                    durationInHours = job.durationInHours,
-                    payRate = job.payRate,
-                    status = job.status,
-                    companyName = company.name,
-                    companyLogoUrl = company.logoUrl
-            )
-        }
+    fun findJobOpportunitiesByCompany(companyId: Long): JobOpportunity {
+                val job = jobOpportunityRepository.findByCompanyId(companyId).firstOrNull() ?: throw RuntimeException("No job opportunities found for this company")
+                return job
     }
 }

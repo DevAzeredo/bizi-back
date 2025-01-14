@@ -15,8 +15,10 @@ class CustomWebSocketHandler : TextWebSocketHandler() {
 
     override fun afterConnectionEstablished(session: WebSocketSession) {
         val remoteAddress = session.remoteAddress?.address?.hostAddress ?: "unknown"
+        val remoteName= session.remoteAddress?.address?.hostName ?: "unknown"
+        val remotePort= session.remoteAddress?.port ?: "unknown"
         sessions[remoteAddress] = session
-        logger.info("Client $remoteAddress connected")
+        logger.info("Client $remoteAddress $remoteName port $remotePort connected")
     }
 
     override fun handleTextMessage(session: WebSocketSession, message: TextMessage) {

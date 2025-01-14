@@ -13,7 +13,7 @@ data class JobOpportunityDTO(
 )
 
 data class JobOpportunityWithCompanyDTO(
-    val id: Long,
+    val id: Long = 0,
     val title: String,
     val description: String,
     val category: String,
@@ -24,6 +24,5 @@ data class JobOpportunityWithCompanyDTO(
     val durationInHours: Int,
     val payRate: Double,
     val status: String,
-    val companyName: String,
-    val companyLogoUrl: String
+    val company: CompanyDTO 
 )

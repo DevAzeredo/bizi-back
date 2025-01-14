@@ -25,7 +25,7 @@ class JobOpportunityController(private val jobOpportunityService: JobOpportunity
     }
 
     @GetMapping("/{companyId}")
-    fun listJobsByCompany(@PathVariable companyId: Long): List<JobOpportunityWithCompanyDTO> {
+    fun listJobsByCompany(@PathVariable companyId: Long): JobOpportunity {
         return jobOpportunityService.findJobOpportunitiesByCompany(companyId)
     }
 }
