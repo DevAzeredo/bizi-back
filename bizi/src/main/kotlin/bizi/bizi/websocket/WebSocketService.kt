@@ -35,4 +35,11 @@ class CustomWebSocketHandler : TextWebSocketHandler() {
     fun sendMessageToClient(clientAddress: String, message: String) {
         sessions[clientAddress]?.sendMessage(TextMessage(message))
     }
+    fun getRandomClient(): String? {
+        return if (sessions.isNotEmpty()) {
+            sessions.keys.random()
+        } else {
+            null
+        }
+    }
 }
