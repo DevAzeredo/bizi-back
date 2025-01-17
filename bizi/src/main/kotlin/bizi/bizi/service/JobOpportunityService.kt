@@ -12,42 +12,32 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 
 @Service
 class JobOpportunityService(
-        private val jobOpportunityRepository: JobOpportunityRepository,
-        private val companyRepository: CompanyRepository,
-        private val webSocketService:CustomWebSocketHandler
+    private val jobOpportunityRepository: JobOpportunityRepository,
 ) {
     fun saveJobOpportunity(job: JobOpportunityDTO, user: User): JobOpportunity {
         val company = user.company ?: throw RuntimeException("User has no company")
 
         val jobOpportunity =
-                JobOpportunity(
-                        title = job.title,
-                        description = job.description,
-                        category = job.category,
-                        address = job.address,
-                        latitude = job.latitude,
-                        longitude = job.longitude,
-                        startDateTime = job.startDateTime,
-                        durationInHours = job.durationInHours,
-                        payRate = job.payRate,
-                        status = job.status,
-                        company = company
-                )
-                val savedJobOpportunity = jobOpportunityRepository.save(jobOpportunity)
+            JobOpportunity(
+                title = job.title,
+                description = job.description,
+                category = job.category,
+                address = job.address,
+                latitude = job.latitude,
+                longitude = job.longitude,
+                startDateTime = job.startDateTime,
+                durationInHours = job.durationInHours,
+                payRate = job.payRate,
+                status = job.status,
+                company = company
+            )
+        return jobOpportunityRepository.save(jobOpportunity)
 
-                val objectMapper = jacksonObjectMapper()
-                val message = objectMapper.writeValueAsString(savedJobOpportunity)
-
-                val randomClient = webSocketService.getRandomClient()
-                randomClient?.let {
-                        webSocketService.sendMessageToClient(it, message)
-                }
-
-        return savedJobOpportunity
     }
 
     fun findJobOpportunitiesByCompany(companyId: Long): JobOpportunity {
-                val job = jobOpportunityRepository.findByCompanyId(companyId).firstOrNull() ?: throw RuntimeException("No job opportunities found for this company")
-                return job
+        val job = jobOpportunityRepository.findByCompanyId(companyId).firstOrNull()
+            ?: throw RuntimeException("No job opportunities found for this company")
+        return job
     }
 }
